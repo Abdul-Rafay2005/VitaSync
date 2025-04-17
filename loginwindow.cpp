@@ -24,9 +24,15 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent) {
         "border-top-left-radius: 20px; border-bottom-left-radius: 20px;"
         );
 
-    QLabel *welcomeText = new QLabel("Welcome Back!");
-    welcomeText->setStyleSheet("color: white; font-size: 36px; font-weight: bold; font-family: 'Segoe UI', sans-serif;");
-    welcomeText->setAlignment(Qt::AlignCenter);
+    QLabel *welcomeText = new QLabel("Welcome to <span style='color:#ffeb3b'>Vita</span><span style='color:#ffffff'>Sync</span>");
+    welcomeText->setStyleSheet(
+        "color: white;"
+        "font-size: 42px;"
+        "font-weight: bold;"
+        "font-family: 'Segoe UI', sans-serif;"
+        "letter-spacing: 1px;"
+        "text-shadow: 2px 2px 4px rgba(0,0,0,0.3);"
+        );
 
     QLabel *descText = new QLabel("Login to continue to your dashboard.");
     descText->setStyleSheet("color: #f0f0f0; font-size: 16px; font-style: italic;");
@@ -34,7 +40,7 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent) {
     descText->setWordWrap(true);
 
     QLabel *creditsLabel = new QLabel("Developed by:\nAbdul Rafay, Syed Nabeel, Sadia, Bisma");
-    creditsLabel->setStyleSheet("color: #e0f7ff; font-size: 19px; font-weight: 500;");
+    creditsLabel->setStyleSheet("color: #e0f7ff; font-size: 16px; font-weight: 500;");
     creditsLabel->setAlignment(Qt::AlignCenter);
 
     QVBoxLayout *welcomeLayout = new QVBoxLayout(welcomeWidget);
@@ -69,16 +75,33 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent) {
     passInput->setStyleSheet("color: black; border-radius: 10px 0 0 10px; padding-left: 8px; font-size: 14px; background-color: #ffffff; border: 1px solid #ccc;");
     passInput->installEventFilter(this);
 
-    QPushButton *toggleButton = new QPushButton("Show");
+    QPushButton *toggleButton = new QPushButton("🙈");  // Default: password hidden
     toggleButton->setCheckable(true);
     toggleButton->setCursor(Qt::PointingHandCursor);
     toggleButton->setMinimumHeight(40);
-    toggleButton->setFixedWidth(60);
-    toggleButton->setStyleSheet("QPushButton { border-radius: 0 10px 10px 0; background-color: #dcdcdc; font-weight: bold; } QPushButton:checked { background-color: #c4c4c4; }");
+    toggleButton->setFixedWidth(50);
+    toggleButton->setStyleSheet(
+        "QPushButton {"
+        "   border-radius: 0 10px 10px 0;"
+        "   background-color: #f0f0f0;"
+        "   border: 1px solid #ccc;"
+        "   border-left: none;"
+        "   font-size: 18px;"
+        "   padding-bottom: 3px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #e0e0e0;"
+        "}"
+        "QPushButton:checked {"
+        "   background-color: #e0e0e0;"
+        "}"
+        );
+
     connect(toggleButton, &QPushButton::toggled, this, [=](bool checked) {
         passInput->setEchoMode(checked ? QLineEdit::Normal : QLineEdit::Password);
-        toggleButton->setText(checked ? "Hide" : "Show");
+        toggleButton->setText(checked ? "👁️" : "🙈");  // 👁️ when showing password, 🙈 when hiding
     });
+
 
     passLayout->addWidget(passInput);
     passLayout->addWidget(toggleButton);
@@ -100,9 +123,8 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent) {
 
     agreeCheckBox = new QCheckBox("I agree to the ");
     agreeCheckBox->setStyleSheet(
-        "QCheckBox { font-size: 13px; color: black; }"
-        "QCheckBox::indicator { width: 18px; height: 18px; border: 2px solid #2e3a59; border-radius: 4px; background-color: white; }"
-        "QCheckBox::indicator:checked { background-color: #2e3a59; border: 2px solid #2e3a59; }"
+        "QCheckBox { font-size: 13px; color: black; spacing: 5px; }"
+        "QCheckBox::indicator { width: 18px; height: 18px; }"
         );
 
     QLabel *termsLink = new QLabel("<a href='#'>Terms & Conditions</a>");
