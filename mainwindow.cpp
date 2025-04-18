@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "chatwindow.h"  // Include ChatWindow
 #include <QGraphicsDropShadowEffect>
 #include <QPropertyAnimation>
 #include <QGraphicsOpacityEffect>
@@ -26,7 +27,7 @@ void MainWindow::setupUI() {
     titleLabel->setAlignment(Qt::AlignCenter);
     titleLabel->setStyleSheet("color: white;");
 
-    generalDoctorBtn = new QPushButton("🩺 Dr. Driva", this);
+    generalDoctorBtn = new QPushButton("🏋️ Coach Nova", this);
     psychiatricDoctorBtn = new QPushButton("🧠 Mood Mentor", this);
 
     layout->addStretch();
@@ -50,7 +51,6 @@ void MainWindow::applyStyle() {
     generalDoctorBtn->setFont(buttonFont);
     psychiatricDoctorBtn->setFont(buttonFont);
 
-    // Neon-style button hover effect and 3D pop-out
     QString buttonStyle = R"(
         QPushButton {
             background-color: #1E1E1E;
@@ -75,7 +75,6 @@ void MainWindow::applyStyle() {
     generalDoctorBtn->setStyleSheet(buttonStyle);
     psychiatricDoctorBtn->setStyleSheet(buttonStyle);
 
-    // Drop shadow effect for buttons
     QGraphicsDropShadowEffect *shadow1 = new QGraphicsDropShadowEffect(this);
     shadow1->setBlurRadius(20);
     shadow1->setOffset(0, 5);
@@ -88,7 +87,6 @@ void MainWindow::applyStyle() {
     shadow2->setColor(QColor(0, 0, 0, 120));
     psychiatricDoctorBtn->setGraphicsEffect(shadow2);
 
-    // Dynamic gradient moving background effect (still needs QTimerEvent for animation)
     centralWidget->setStyleSheet(R"(
         QWidget {
             background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1,
@@ -97,7 +95,6 @@ void MainWindow::applyStyle() {
         }
     )");
 
-    // Title fade-in effect with color change
     QGraphicsOpacityEffect *fadeEffect = new QGraphicsOpacityEffect(titleLabel);
     titleLabel->setGraphicsEffect(fadeEffect);
     QPropertyAnimation *animation = new QPropertyAnimation(fadeEffect, "opacity");
@@ -105,21 +102,14 @@ void MainWindow::applyStyle() {
     animation->setStartValue(0.0);
     animation->setEndValue(1.0);
     animation->start();
-
-    // Title glowing effect
-    QPropertyAnimation *glowEffect = new QPropertyAnimation(titleLabel, "color");
-    glowEffect->setDuration(3000);
-    glowEffect->setStartValue(QColor(255, 255, 255));
-    glowEffect->setEndValue(QColor(255, 0, 255));
-    glowEffect->start();
 }
 
 void MainWindow::openGeneralDoctorChat() {
-    ChatWindow *chat = new ChatWindow("General Doctor");
+    ChatWindow *chat = new ChatWindow("Coach Nova");
     chat->show();
 }
 
 void MainWindow::openPsychiatricDoctorChat() {
-    ChatWindow *chat = new ChatWindow("Psychiatric Doctor");
+    ChatWindow *chat = new ChatWindow("Mood Mentor");
     chat->show();
 }
