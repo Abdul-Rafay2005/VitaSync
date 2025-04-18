@@ -58,7 +58,7 @@ ChatWindow::ChatWindow(const QString &doctorType, QWidget *parent)
             padding: 12px 15px;
             border: 2px solid #dfe6e9;
             border-radius: 20px;
-            background-color: white;
+            background-color: black;
         }
         QLineEdit:focus {
             border: 2px solid #3498db;
@@ -93,9 +93,11 @@ ChatWindow::ChatWindow(const QString &doctorType, QWidget *parent)
     connect(sendButton, &QPushButton::clicked, this, &ChatWindow::sendMessage);
     connect(inputField, &QLineEdit::returnPressed, this, &ChatWindow::sendMessage);
 
-    chatBox->append("<div style='color:#7f8c8d;font-style:italic;'>"
-                    "VitaSync: Hello! How can I help you today?"
-                    "</div>");
+    QString intro = doctorType == "Coach Nova" ?
+                        "Hello! I am Coach Nova — your personal mental and physical health coach. How can I assist you today?" :
+                        "Hello! I am Mood Mentor, your supportive AI therapist. How are you feeling today?";
+
+    chatBox->append("<div style='color:#7f8c8d;font-style:italic;'>" + intro + "</div>");
 }
 
 void ChatWindow::sendMessage()
@@ -110,17 +112,35 @@ void ChatWindow::sendMessage()
                     "</span></div>");
     inputField->clear();
 
-    // Gemini API request format
-    QJsonObject textPart;
-    textPart["text"] = message;
+    QString systemPrompt;
+    if (doctorType == "Coach Nova") {
+        systemPrompt =
+            "You are Coach Nova, an expert mental and physical wellness coach. "
+            "You provide fitness routines, mental exercises, meditation practices, nutritional tips, and motivational advice. "
+            "Your goal is to help the user maintain both physical and emotional well-being with structured plans and encouragement. "
+            "Avoid discussing irrelevant topics like politics or programming. If asked, say: "
+            "\"Let's focus on your physical and mental wellness goals.\"";
+    } else {
+        systemPrompt =
+            "You are Dr Driva (Mood Mentor), a compassionate and supportive AI therapist. "
+            "Help users with emotional guidance, mental health, stress management, anxiety relief, and listening support. "
+            "Avoid general knowledge topics like history or tech. If asked, kindly say: "
+            "\"I'm here for emotional support. Let’s talk about how you’re feeling.\"";
+    }
+
+    QJsonObject systemPart;
+    systemPart["text"] = systemPrompt;
+
+    QJsonObject userPart;
+    userPart["text"] = message;
 
     QJsonObject content;
-    content["parts"] = QJsonArray{ textPart };
+    content["parts"] = QJsonArray{ systemPart, userPart };
 
     QJsonObject requestBody;
     requestBody["contents"] = QJsonArray{ content };
 
-    QNetworkRequest request(QUrl("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=our API KEY HERE "));
+    QNetworkRequest request(QUrl("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=MY API KEY"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     QNetworkReply *reply = networkManager->post(request, QJsonDocument(requestBody).toJson());
