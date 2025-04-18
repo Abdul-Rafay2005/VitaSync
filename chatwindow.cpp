@@ -97,7 +97,7 @@ ChatWindow::ChatWindow(const QString &doctorType, QWidget *parent)
                         "Hello! I am Coach Nova — your personal mental and physical health coach. How can I assist you today?" :
                         "Hello! I am Mood Mentor, your supportive AI therapist. How are you feeling today?";
 
-    chatBox->append("<div style='color:#7f8c8d;font-style:italic;'>" + intro + "</div>");
+    chatBox->append("<div style='color:#7f8c8d;'>" + intro + "</div>");
 }
 
 void ChatWindow::sendMessage()
@@ -105,10 +105,9 @@ void ChatWindow::sendMessage()
     QString message = inputField->text().trimmed();
     if (message.isEmpty()) return;
 
-    QString time = QDateTime::currentDateTime().toString("hh:mm:ss");
     chatBox->append("<div style='margin:10px 0;text-align:right;'>"
-                    "<span style='background:#3498db;color:white;border-radius:15px;padding:8px 12px;display:inline-block;'>"
-                    "<b>You [" + time + "]:</b> " + message +
+                    "<span style='color:#2c3e50;'>"
+                    "<b>You:</b> " + message +
                     "</span></div>");
     inputField->clear();
 
@@ -125,7 +124,7 @@ void ChatWindow::sendMessage()
             "You are Dr Driva (Mood Mentor), a compassionate and supportive AI therapist. "
             "Help users with emotional guidance, mental health, stress management, anxiety relief, and listening support. "
             "Avoid general knowledge topics like history or tech. If asked, kindly say: "
-            "\"I'm here for emotional support. Let’s talk about how you’re feeling.\"";
+            "\"I'm here for emotional support. Let's talk about how you're feeling.\"";
     }
 
     QJsonObject systemPart;
@@ -159,10 +158,9 @@ void ChatWindow::sendMessage()
                                                    .toObject()["parts"]
                                                    .toArray()[0].toObject()["text"].toString();
 
-                        QString time = QDateTime::currentDateTime().toString("hh:mm:ss");
                         chatBox->append("<div style='margin:10px 0;'>"
-                                        "<span style='background:#ecf0f1;color:#2c3e50;border-radius:15px;padding:8px 12px;display:inline-block;'>"
-                                        "<b>VitaSync [" + time + "]:</b> " + responseText +
+                                        "<span style='color:#2c3e50;'>"
+                                        "<b>VitaSync:</b> " + responseText +
                                         "</span></div>");
                     } else {
                         chatBox->append("<div style='color:#e67e22;'><b>Warning:</b> No response received.</div>");
