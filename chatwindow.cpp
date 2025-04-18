@@ -15,14 +15,14 @@ ChatWindow::ChatWindow(const QString &doctorType, QWidget *parent)
 {
     setWindowTitle("VitaSync Chat - " + doctorType);
     setMinimumSize(600, 700);
-    setStyleSheet("background-color: #f5f7fa;");
+    setStyleSheet("background-color: #1e1e2f;");
 
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->setContentsMargins(15, 15, 15, 15);
     mainLayout->setSpacing(15);
 
     QLabel *header = new QLabel("Chat with " + doctorType);
-    header->setStyleSheet("font-size: 18px;font-weight: bold;color: #2c3e50;padding: 10px;background-color: #ffffff;border-radius: 8px;");
+    header->setStyleSheet("font-size: 18px;font-weight: bold;color: #ffffff;padding: 10px;background-color: #2c2f3a;border-radius: 8px;");
     mainLayout->addWidget(header);
 
     chatBox = new QTextEdit();
@@ -30,18 +30,18 @@ ChatWindow::ChatWindow(const QString &doctorType, QWidget *parent)
     chatBox->setStyleSheet(R"(
         QTextEdit {
             font-size: 14px;
-            background-color: white;
-            color: #34495e;
-            border: 1px solid #dfe6e9;
+            background-color: #2c2f3a;
+            color: #ecf0f1;
+            border: 1px solid #3e4451;
             border-radius: 8px;
             padding: 15px;
         }
         QScrollBar:vertical {
             width: 10px;
-            background: #f1f5f9;
+            background: #2c2f3a;
         }
         QScrollBar::handle:vertical {
-            background: #bdc3c7;
+            background: #555b6e;
             border-radius: 4px;
         }
     )");
@@ -56,9 +56,10 @@ ChatWindow::ChatWindow(const QString &doctorType, QWidget *parent)
         QLineEdit {
             font-size: 14px;
             padding: 12px 15px;
-            border: 2px solid #dfe6e9;
+            border: 2px solid #3e4451;
             border-radius: 20px;
-            background-color: black;
+            background-color: #1c1f26;
+            color: #ecf0f1;
         }
         QLineEdit:focus {
             border: 2px solid #3498db;
@@ -97,7 +98,7 @@ ChatWindow::ChatWindow(const QString &doctorType, QWidget *parent)
                         "Hello! I am Coach Nova — your personal mental and physical health coach. How can I assist you today?" :
                         "Hello! I am Mood Mentor, your supportive AI therapist. How are you feeling today?";
 
-    chatBox->append("<div style='color:#7f8c8d;'>" + intro + "</div>");
+    chatBox->append("<div style='color:#bdc3c7;'>" + intro + "</div>");
 }
 
 void ChatWindow::sendMessage()
@@ -106,7 +107,7 @@ void ChatWindow::sendMessage()
     if (message.isEmpty()) return;
 
     chatBox->append("<div style='margin:10px 0;text-align:right;'>"
-                    "<span style='color:#2c3e50;'>"
+                    "<span style='color:#ecf0f1;'>"
                     "<b>You:</b> " + message +
                     "</span></div>");
     inputField->clear();
@@ -159,11 +160,11 @@ void ChatWindow::sendMessage()
                                                    .toArray()[0].toObject()["text"].toString();
 
                         chatBox->append("<div style='margin:10px 0;'>"
-                                        "<span style='color:#2c3e50;'>"
+                                        "<span style='color:#ecf0f1;'>"
                                         "<b>VitaSync:</b> " + responseText +
                                         "</span></div>");
                     } else {
-                        chatBox->append("<div style='color:#e67e22;'><b>Warning:</b> No response received.</div>");
+                        chatBox->append("<div style='color:#f39c12;'><b>Warning:</b> No response received.</div>");
                     }
                 } else {
                     chatBox->append("<div style='color:#e74c3c;'><b>Error:</b> No 'candidates' in response.</div>");
