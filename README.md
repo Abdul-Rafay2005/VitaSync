@@ -1,6 +1,7 @@
 🧠 VitaSync - AI Therapist & Health Assistant
 
 VitaSync is an intelligent AI-powered desktop chat application built with **C++** and **Qt**. It allows users to chat with a virtual doctor or therapist who understands emotions, provides supportive responses, and promotes mental well-being.
+This is a collaborative project
 
 ---
 
